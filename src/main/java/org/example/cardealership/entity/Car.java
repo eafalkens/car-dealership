@@ -13,6 +13,7 @@ public class Car {
     private String brand;
     private String model;
     private String description;
+    @Column(name = "car_year")
     private int year;
     private double price;
 

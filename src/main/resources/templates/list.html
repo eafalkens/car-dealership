@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Car Dealership</title>
+    <!-- Lägg gärna till lite CSS senare, men vi kör rent HTML först -->
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Available Cars</h1>
+
+<a href="/cars/create">Add New Car</a>
+<br><br>
+
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Brand</th>
+        <th>Model</th>
+        <th>Year</th>
+        <th>Price</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <!-- Loopar igenom listan "cars" från Controllern -->
+    <tr th:each="car : ${cars}">
+        <td th:text="${car.id}">1</td>
+        <td th:text="${car.brand}">Volvo</td>
+        <td th:text="${car.model}">V70</td>
+        <td th:text="${car.year}">2020</td>
+        <td th:text="${car.price}">250000</td>
+        <td>
+            <!-- Länk för att redigera -->
+            <a th:href="@{/cars/edit/{id}(id=${car.id})}">Edit</a>
+            |
+            <!-- Länk för att ta bort -->
+            <a th:href="@{/cars/delete/{id}(id=${car.id})}"
+               onclick="return confirm('Are you sure you want to delete this car?')">Delete</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+</body>
+</html>

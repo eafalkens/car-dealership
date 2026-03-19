@@ -44,6 +44,6 @@ To separate the database model from what is displayed or submitted in forms, DTO
 ## To-Do (Workflow)
 1. [ ] Create `Car` entity and `CarRepository`.
 2. [ ] Create Service layer and Mapper.
-3. [ ] Implement Controller and HTML views (List, Create, Update, Delete).
+3. [ ] Implement Controller and HTML views (List, Create, Update, Delete). 
 4. [ ] Add validation and error handling.
 5. [ ] Write unit tests.

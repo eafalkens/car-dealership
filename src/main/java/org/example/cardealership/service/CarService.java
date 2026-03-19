@@ -1,42 +1,58 @@
 package org.example.cardealership.service;
 
+import org.example.cardealership.dto.CarDto;
+import org.example.cardealership.dto.CreateCarDto;
+import org.example.cardealership.dto.UpdateCarDto;
 import org.example.cardealership.entity.Car;
+import org.example.cardealership.mapper.CarMapper;
 import org.example.cardealership.repository.CarRepository;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class CarService {
 
     private final CarRepository carRepository;
+    private final CarMapper carMapper;
 
-    public CarService(CarRepository carRepository) {
+    public CarService(CarRepository carRepository, CarMapper carMapper) {
         this.carRepository = carRepository;
+        this.carMapper = carMapper;
     }
 
     // Get all cars
-    public List<Car> getAllCars() {
-        return carRepository.findAll();
+    public List<CarDto> getAllCars() {
+        return carRepository.findAll()
+                .stream()
+                .map(carMapper::toDto)
+                .collect(Collectors.toList());
     }
 
     // Get car by ID
-    public Optional<Car> getCarById(Long id) {
-        return carRepository.findById(id);
+    public Optional<CarDto> getCarById(Long id) {
+        return carRepository.findById(id)
+                .map(carMapper::toDto);
     }
 
     // Create a new car
-    public Car createCar(Car car) {
-        return carRepository.save(car);
+    public CarDto createCar(CreateCarDto createCarDto) {
+        Car car = carMapper.toEntity(createCarDto);
+        Car savedCar = carRepository.save(car);
+        return carMapper.toDto(savedCar);
     }
 
     // Update car
-    public Car updateCar(Long id, Car car) {
-        if (carRepository.existsById(id)) {
-            car.setId(id);
-            return carRepository.save(car);
+    public CarDto updateCar(Long id, UpdateCarDto updateCarDto) {
+        Optional<Car> existingCarOptional = carRepository.findById(id);
+        if (existingCarOptional.isEmpty()) {
+            return null;
         }
-        return null;
+        Car existingCar = existingCarOptional.get();
+        carMapper.updateEntity(updateCarDto, existingCar);
+        Car updatedCar = carRepository.save(existingCar);
+        return carMapper.toDto(updatedCar);
     }
 
     // Delete Car

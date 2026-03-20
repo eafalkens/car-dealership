@@ -7,21 +7,23 @@ import jakarta.validation.constraints.Positive;
 
 public class CreateCarDto {
 
-    @NotBlank
+    @NotBlank(message = "Brand is required")
     private String brand;
 
-    @NotBlank
+    @NotBlank(message = "Model is required")
     private String model;
 
-    @NotBlank
+    @NotBlank(message = "Description is required")
     private String description;
 
-    @Positive
-    @Max(2026)
-    private int year;
+    @NotNull(message = "Invalid value")
+    @Positive(message = "Year must be a positive")
+    @Max(value = 2026, message = "Year cannot be greater than 2026")
+    private Integer year;
 
-    @Positive
-    private double price;
+    @NotNull(message = "Invalid value")
+    @Positive(message = "Price must be a positive")
+    private Double price;
 
     public String getBrand() {
         return brand;
@@ -47,19 +49,19 @@ public class CreateCarDto {
         this.description = description;
     }
 
-    public int getYear() {
+    public Integer getYear() {
         return year;
     }
 
-    public void setYear(int year) {
+    public void setYear(Integer year) {
         this.year = year;
     }
 
-    public double getPrice() {
+    public Double getPrice() {
         return price;
     }
 
-    public void setPrice(double price) {
+    public void setPrice(Double price) {
         this.price = price;
     }
 }

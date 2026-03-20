@@ -59,4 +59,28 @@ public class CarService {
     public void deleteCar(Long id) {
         carRepository.deleteById(id);
     }
+
+    // Find cars by brand
+    public List<CarDto> findCarsByBrand(String brand) {
+        return carRepository.findByBrand(brand)
+                .stream()
+                .map(carMapper::toDto)
+                .collect(Collectors.toList());
+    }
+
+    // Find cars cheaper than a certain price
+    public List<CarDto> findCarsCheaperThan(double price) {
+        return carRepository.findByPriceLessThan(price)
+                .stream()
+                .map(carMapper::toDto)
+                .collect(Collectors.toList());
+    }
+
+    // Find cars newer than a certain year
+    public List<CarDto> findCarsNewerThan(int year) {
+        return carRepository.findByYearGreaterThan(year)
+                .stream()
+                .map(carMapper::toDto)
+                .collect(Collectors.toList());
+    }
 }

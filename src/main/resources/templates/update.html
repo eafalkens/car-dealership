@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Update Car</title>
+</head>
+<body>
+
+<h1>Update Car</h1>
+
+<form action="#" th:action="@{/cars/edit/{id}(id=${car.id})}" th:object="${car}" method="post">
+  <!-- Dolt fält för ID - viktigt för att veta vilken bil som uppdateras -->
+  <input type="hidden" th:field="*{id}" />
+
+  <p>
+    <label>Brand:</label>
+    <input type="text" th:field="*{brand}" required>
+  </p>
+
+  <p>
+    <label>Model:</label>
+    <input type="text" th:field="*{model}" required>
+  </p>
+
+  <p>
+    <label>Year:</label>
+    <input type="number" th:field="*{year}" min="1886" required>
+  </p>
+
+  <p>
+    <label>Price:</label>
+    <input type="number" step="0.01" th:field="*{price}" min="0" required>
+  </p>
+
+  <p>
+    <label>Description:</label>
+    <textarea th:field="*{description}"></textarea>
+  </p>
+
+  <button type="submit">Save Changes</button>
+  <a href="/cars">Cancel</a>
+
+</form>
+
+</body>
+</html>

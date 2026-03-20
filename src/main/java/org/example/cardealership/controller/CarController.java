@@ -6,6 +6,7 @@ import org.example.cardealership.service.CarService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.example.cardealership.exception.ResourceNotFoundException;
 
 @Controller
 @RequestMapping("/cars")
@@ -41,7 +42,7 @@ public class CarController {
     // Show form to update an existing car
     @GetMapping("/edit/{id}")
     public String showUpdateForm(@PathVariable Long id, Model model) {
-        var car = carService.getCarById(id).orElseThrow(() -> new IllegalArgumentException("Invalid car Id:" + id));
+        var car = carService.getCarById(id).orElseThrow(() -> new ResourceNotFoundException("Car not found with Id:" + id));
         model.addAttribute("car", car);
         return "update";
     }

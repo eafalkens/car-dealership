@@ -1,10 +1,12 @@
 package org.example.cardealership.controller;
 
+import jakarta.validation.Valid;
 import org.example.cardealership.dto.CreateCarDto;
 import org.example.cardealership.dto.UpdateCarDto;
 import org.example.cardealership.service.CarService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.example.cardealership.exception.ResourceNotFoundException;
 
@@ -22,20 +24,28 @@ public class CarController {
     @GetMapping
     public String listCars(Model model) {
         model.addAttribute("cars", carService.getAllCars());
-        return "list"; // Motsvarar list.html
+        return "list";
     }
 
     // Show form to create a new car
     @GetMapping("/create")
     public String showCreateForm(Model model) {
         model.addAttribute("car", new CreateCarDto());
-        return "create"; // Motsvarar create.html
+        return "create";
     }
 
     // Handle the submission of the new car form
     @PostMapping("/create")
-    public String createCar(@ModelAttribute("car") CreateCarDto carDto) {
-        carService.createCar(carDto);
+    public String createCar(@Valid @ModelAttribute("car") CreateCarDto carDto, BindingResult result) {
+        if (result.hasErrors()) {
+            return "create";
+        }
+        try {
+            carService.createCar(carDto);
+        } catch (IllegalArgumentException e) {
+            result.rejectValue("year", "year.invalid", e.getMessage());
+            return "create";
+        }
         return "redirect:/cars";
     }
 
@@ -49,8 +59,16 @@ public class CarController {
 
     // Handle the submission of the update form
     @PostMapping("/edit/{id}")
-    public String updateCar(@PathVariable Long id, @ModelAttribute("car") UpdateCarDto carDto) {
-        carService.updateCar(id, carDto);
+    public String updateCar(@PathVariable Long id, @Valid @ModelAttribute("car") UpdateCarDto carDto, BindingResult result) {
+        if (result.hasErrors()) {
+            return "update";
+        }
+        try {
+            carService.updateCar(id, carDto);
+        } catch (IllegalArgumentException e) {
+            result.rejectValue("year", "year.invalid", e.getMessage());
+            return "update";
+        }
         return "redirect:/cars";
     }
 

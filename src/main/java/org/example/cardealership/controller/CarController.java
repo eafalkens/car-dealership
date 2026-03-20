@@ -17,28 +17,28 @@ public class CarController {
         this.carService = carService;
     }
 
-    // 1. List all cars
+    // List all cars
     @GetMapping
     public String listCars(Model model) {
         model.addAttribute("cars", carService.getAllCars());
         return "list"; // Motsvarar list.html
     }
 
-    // 2. Show form to create a new car
+    // Show form to create a new car
     @GetMapping("/create")
     public String showCreateForm(Model model) {
         model.addAttribute("car", new CreateCarDto());
         return "create"; // Motsvarar create.html
     }
 
-    // 3. Handle the submission of the new car form
+    // Handle the submission of the new car form
     @PostMapping("/create")
     public String createCar(@ModelAttribute("car") CreateCarDto carDto) {
         carService.createCar(carDto);
         return "redirect:/cars";
     }
 
-    // 4. Show form to update an existing car
+    // Show form to update an existing car
     @GetMapping("/edit/{id}")
     public String showUpdateForm(@PathVariable Long id, Model model) {
         var car = carService.getCarById(id).orElseThrow(() -> new IllegalArgumentException("Invalid car Id:" + id));
@@ -46,17 +46,38 @@ public class CarController {
         return "update";
     }
 
-    // 5. Handle the submission of the update form
+    // Handle the submission of the update form
     @PostMapping("/edit/{id}")
     public String updateCar(@PathVariable Long id, @ModelAttribute("car") UpdateCarDto carDto) {
         carService.updateCar(id, carDto);
         return "redirect:/cars";
     }
 
-    // 6. Delete a car
+    // Delete a car
     @GetMapping("/delete/{id}")
     public String deleteCar(@PathVariable Long id) {
         carService.deleteCar(id);
         return "redirect:/cars";
+    }
+
+    // Search for cars by brand
+    @GetMapping("/search/brand")
+    public String searchByBrand(@RequestParam String brand, Model model) {
+        model.addAttribute("cars", carService.findCarsByBrand(brand));
+        return "list";
+    }
+
+    // Search for cars cheaper than a certain price
+    @GetMapping("/search/price")
+    public String searchByPrice(@RequestParam double price, Model model) {
+        model.addAttribute("cars", carService.findCarsCheaperThan(price));
+        return "list";
+    }
+
+    // Search for cars newer than a certain year
+    @GetMapping("/search/year")
+    public String searchByYear(@RequestParam int year, Model model) {
+        model.addAttribute("cars", carService.findCarsNewerThan(year));
+        return "list";
     }
 }

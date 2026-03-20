@@ -2,42 +2,28 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Add New Car</title>
+    <style>
+        body, input, textarea, span.error {
+            font-family: Arial, sans-serif;
+            font-size: 1em;
+        }
+        span.error {
+            color: red;
+            display: block;
+            margin-top: 5px;
+            font-size: 0.9em;
+        }
+    </style>
 </head>
 <body>
-
 <h1>Add New Car</h1>
-
-<form action="#" th:action="@{/cars/create}" th:object="${car}" method="post">
-
-    <p>
-        <label>Brand:</label>
-        <input type="text" th:field="*{brand}" required>
-    </p>
-
-    <p>
-        <label>Model:</label>
-        <input type="text" th:field="*{model}" required>
-    </p>
-
-    <p>
-        <label>Year:</label>
-        <input type="number" th:field="*{year}" min="1886" required>
-    </p>
-
-    <p>
-        <label>Price:</label>
-        <input type="number" step="0.01" th:field="*{price}" min="0" required>
-    </p>
-
-    <p>
-        <label>Description:</label>
-        <textarea th:field="*{description}"></textarea>
-    </p>
-
-    <button type="submit">Save</button>
-    <a href="/cars">Cancel</a>
-
+<form action="#" th:action="@{/cars/create}" th:object="${car}" method="post" novalidate>
+    <p>Brand:<br> <input type="text" th:field="*{brand}"> <span th:if="${#fields.hasErrors('brand')}" th:errors="*{brand}" class="error"></span></p>
+    <p>Model:<br> <input type="text" th:field="*{model}"> <span th:if="${#fields.hasErrors('model')}" th:errors="*{model}" class="error"></span></p>
+    <p>Year:<br> <input type="number" th:field="*{year}"> <span th:if="${#fields.hasErrors('year')}" th:errors="*{year}" class="error"></span></p>
+    <p>Price:<br> <input type="number" step="0.01" th:field="*{price}"> <span th:if="${#fields.hasErrors('price')}" th:errors="*{price}" class="error"></span></p>
+    <p>Description:<br> <textarea th:field="*{description}"></textarea> <span th:if="${#fields.hasErrors('description')}" th:errors="*{description}" class="error"></span></p>
+    <button type="submit">Save</button> <a href="/cars">Cancel</a>
 </form>
-
 </body>
 </html>

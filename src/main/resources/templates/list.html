@@ -21,7 +21,30 @@
 <body>
 
 <h1>Available Cars</h1>
+<!-- Search Forms -->
+<div style="margin-bottom: 20px; text-align: center;">
 
+    <!-- Search by Brand -->
+    <form action="/cars/search/brand" method="get" style="display: inline-block; margin: 5px;">
+        <input type="text" name="brand" placeholder="Brand..." required>
+        <button type="submit">Search Brand</button>
+    </form>
+
+    <!-- Filter by Price -->
+    <form action="/cars/search/price" method="get" style="display: inline-block; margin: 5px;">
+        <input type="number" name="price" placeholder="Max Price..." required>
+        <button type="submit">Filter Price</button>
+    </form>
+
+    <!-- Filter by Year -->
+    <form action="/cars/search/year" method="get" style="display: inline-block; margin: 5px;">
+        <input type="number" name="year" placeholder="Newer than..." required>
+        <button type="submit">Filter Year</button>
+    </form>
+
+    <br>
+    <a href="/cars" style="font-size: 0.9em;">Reset / Show All</a>
+</div>
 <a href="/cars/create">Add New Car</a>
 <br><br>
 

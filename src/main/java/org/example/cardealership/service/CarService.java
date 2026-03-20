@@ -38,6 +38,10 @@ public class CarService {
 
     // Create a new car
     public CarDto createCar(CreateCarDto createCarDto) {
+        if (createCarDto.getYear() < 1950) {
+            throw new IllegalArgumentException("We do not accept cars older than 1950.");
+        }
+
         Car car = carMapper.toEntity(createCarDto);
         Car savedCar = carRepository.save(car);
         return carMapper.toDto(savedCar);

@@ -16,7 +16,8 @@ public class CreateCarDto {
     @NotBlank
     private String description;
 
-    @Positive @Max(2026)
+    @Positive
+    @Max(2026)
     private int year;
 
     @Positive

@@ -1,6 +1,9 @@
 package org.example.cardealership.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Positive;
 
 @Entity
 @Table(name = "cars")
@@ -10,11 +13,21 @@ public class Car {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank
     private String brand;
+
+    @NotBlank
     private String model;
+
+    @NotBlank
     private String description;
+
     @Column(name = "car_year")
+    @Positive
+    @Max(2026)
     private int year;
+
+    @Positive
     private double price;
 
     public Car() {}

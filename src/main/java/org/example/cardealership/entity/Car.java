@@ -5,6 +5,8 @@ import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;
 
+import java.time.LocalDate;
+
 @Entity
 @Table(name = "cars")
 public class Car {
@@ -30,7 +32,15 @@ public class Car {
     @Positive
     private double price;
 
+    @Column(name = "added_at")
+    private LocalDate addedAt;
+
     public Car() {}
+
+    @PrePersist
+    protected void onCreate() {
+        addedAt = LocalDate.now();
+    }
 
     public Car(String brand, String model, String description, int year, double price) {
         this.brand = brand;
@@ -88,4 +98,7 @@ public class Car {
         this.price = price;
     }
 
+    public LocalDate getAddedAt() {
+        return addedAt;
+    }
 }
